@@ -1,0 +1,21 @@
+.env
+server/.env
+secrets/
+node_modules/
+*.log
+dist/
+build/
+coverage/
+*.env.local
+*.env.*.local
+*.DS_Store
+Thumbs.db# Node modules
+node_modules/
+
+# Environment variables
+.env
+server/.env
+
+# OS files
+.DS_Store
+Thumbs.db
