@@ -90,58 +90,26 @@ function sendMessage(tabName)
     }, 500);
 }
 
-// Initial call to set the first tab ('Bio') as active on load
-document.addEventListener('DOMContentLoaded', () =>
-{
-    // Ensures the 'Bio' tab is open and the button is highlighted when the page loads.
-    openTab('Bio');
-});
+// Global tone state
+const tones = ['Formal', 'Friendly', 'Technical'];
+let currentToneIndex = 0;
 
-// Backend
-// Data Persitence Logic
-const STORAGE_KEY = 'aiPortfolioAssistantData';
-
-// Save an output to localStorage
-function saveOutput(content, type)
-{
-    const items = loadSavedOutputs();
-    const newItem = {
-        id: Date.now(), // Use timestamp as a simple unique ID
-        content: content,
-        type: type
-    };
-    items.push(newItem);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+// Function to cycle through tones
+function cycleTone() {
+    currentToneIndex = (currentToneIndex + 1) % tones.length;
+    document.getElementById('toneLabel').textContent = tones[currentToneIndex];
 }
 
-// Load all saved outputs from localStorage
-function loadSavedOutputs()
-{
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+// Helper to get current tone
+function getCurrentTone() {
+    return tones[currentToneIndex];
 }
 
-// Delete a specific output by id from localStorage
-function deleteSavedOutput(id)
-{
-    let items = loadSavedOutputs();
-    // Note: id from dataset is a string, item.id is a number
-    items = items.filter(item => item.id != id);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-}
-
-// Clear all user data from localStorage
-function clearAllUserData()
-{
-    localStorage.removeItem(STORAGE_KEY);
-}
-
-// Async function for prompt engineering and API call
+// Replace dummy output with prompt engineering
 async function handleGenerate(type, userInput, tone = null) {
     let systemPrompt = "";
     let userQuery = "";
 
-    // --- US-1: BIO GENERATOR PROMPT ENGINEERING (Tone-based) ---
     if (type === 'bio') {
         switch (tone) {
             case 'Formal':
@@ -168,9 +136,11 @@ async function handleGenerate(type, userInput, tone = null) {
         USER INPUT:
         "${userInput}"
         `;
-    }
-    // --- US-2: PROJECT SUMMARY PROMPT ENGINEERING ---
-    else if (type === 'summary') {
+    } else if (type === 'profile') {
+        // You can add prompt engineering for Profile here if needed
+        systemPrompt = "You are a professional profile generator.";
+        userQuery = `Generate a profile based on: "${userInput}"`;
+    } else if (type === 'summary') {
         systemPrompt = "You are an expert technical editor and concise storyteller. Your task is to transform technical project details into a compelling, non-technical project summary focused on business value.";
         userQuery = `
         Generate a concise, impactful, and professional Project Summary suitable for a portfolio.
@@ -184,108 +154,56 @@ async function handleGenerate(type, userInput, tone = null) {
         USER INPUTS to transform:
         "${userInput}"
         `;
-    }
-    // --- US-3: REFLECTION GENERATOR PROMPT ENGINEERING ---
-    else if (type === 'reflection') {
-        systemPrompt = "You are a supportive career mentor and reflective analyst. Your task is to guide the user in generating a structured, insightful reflection on their learning process, suitable for a professional development log.";
-        userQuery = `
-        Based on the user's raw experience data, generate a structured, four-point Learning Reflection.
-        
-        The reflection must be formatted as four distinct, labeled paragraphs, and answer the following questions:
-        1. **The Challenge:** What was the main technical or intellectual challenge encountered?
-        2. **Action Taken:** What specific steps, processes, or resources were used to overcome the challenge?
-        3. **Key Lesson:** What is the single most important lesson or technical insight gained from this experience?
-        4. **Future Application:** How will this new knowledge or skill be applied in a future project or role?
-        
-        Do not include any introductory or concluding sentences outside of the four labeled sections.
-        
-        USER INPUT:
-        "${userInput}"
-        `;
     } else {
         throw new Error(`Invalid generation type: ${type}`);
     }
 
     // Placeholder for API call - replace with actual call
-    // return callGeminiAPI(systemPrompt, userQuery);
-    // For now, just return the prompts for demonstration
     return `[SYSTEM PROMPT]\n${systemPrompt}\n\n[USER QUERY]\n${userQuery}`;
 }
 
-// Function to handle sending input and generating output based on tab
+// Update sendMessage to use the selected tone for all tabs
 function sendMessage(tabName) {
-    let input, outputArea, userMessage, tone;
+    let input, outputArea, userMessage;
 
     if (tabName === 'Bio') {
         input = document.getElementById("bioInput");
         outputArea = document.getElementById("bio-area");
-        tone = document.getElementById("bioTone").value;
-        userMessage = input.value.trim();
-        if (userMessage === "") return;
-
-        // Append user input as a bubble
-        const userBubble = document.createElement("div");
-        userBubble.className = "user-bubble bubble";
-        userBubble.textContent = userMessage;
-        outputArea.appendChild(userBubble);
-
-        input.value = ""; // Clear input
-        outputArea.scrollTop = outputArea.scrollHeight;
-
-        // Generate AI response using prompt engineering
-        handleGenerate('bio', userMessage, tone).then(response => {
-            const aiBubble = document.createElement("div");
-            aiBubble.className = "ai-bubble bubble";
-            aiBubble.textContent = response;
-            outputArea.appendChild(aiBubble);
-            outputArea.scrollTop = outputArea.scrollHeight;
-        });
-        return;
     } else if (tabName === 'Profile') {
         input = document.getElementById("profileInput");
         outputArea = document.getElementById("profile-area");
-        userMessage = input.value.trim();
-        if (userMessage === "") return;
-
-        const userBubble = document.createElement("div");
-        userBubble.className = "user-bubble bubble";
-        userBubble.textContent = userMessage;
-        outputArea.appendChild(userBubble);
-
-        input.value = "";
-        outputArea.scrollTop = outputArea.scrollHeight;
-
-        // You can add prompt engineering for Profile here if needed
-        setTimeout(() => {
-            const aiBubble = document.createElement("div");
-            aiBubble.className = "ai-bubble bubble";
-            aiBubble.textContent = "Updated profile: " + userMessage;
-            outputArea.appendChild(aiBubble);
-            outputArea.scrollTop = outputArea.scrollHeight;
-        }, 500);
-        return;
     } else if (tabName === 'PortfolioSummary') {
         input = document.getElementById("portfolioInput");
         outputArea = document.getElementById("portfolio-area");
-        userMessage = input.value.trim();
-        if (userMessage === "") return;
-
-        const userBubble = document.createElement("div");
-        userBubble.className = "user-bubble bubble";
-        userBubble.textContent = userMessage;
-        outputArea.appendChild(userBubble);
-
-        input.value = "";
-        outputArea.scrollTop = outputArea.scrollHeight;
-
-        // Generate AI response using prompt engineering
-        handleGenerate('summary', userMessage).then(response => {
-            const aiBubble = document.createElement("div");
-            aiBubble.className = "ai-bubble bubble";
-            aiBubble.textContent = response;
-            outputArea.appendChild(aiBubble);
-            outputArea.scrollTop = outputArea.scrollHeight;
-        });
-        return;
     }
+
+    userMessage = input.value.trim();
+    if (userMessage === "") return;
+
+    // Append user input as a bubble
+    const userBubble = document.createElement("div");
+    userBubble.className = "user-bubble bubble";
+    userBubble.textContent = userMessage;
+    outputArea.appendChild(userBubble);
+
+    input.value = ""; // Clear input
+    outputArea.scrollTop = outputArea.scrollHeight;
+
+    // Generate AI response using prompt engineering
+    let type = tabName === 'PortfolioSummary' ? 'summary' : tabName.toLowerCase();
+    handleGenerate(type, userMessage, getCurrentTone()).then(response => {
+        const aiBubble = document.createElement("div");
+        aiBubble.className = "ai-bubble bubble";
+        aiBubble.textContent = response;
+        outputArea.appendChild(aiBubble);
+        outputArea.scrollTop = outputArea.scrollHeight;
+    });
 }
+
+// Initial call to set the first tab ('Bio') as active on load
+document.addEventListener('DOMContentLoaded', () =>
+{
+    // Ensures the 'Bio' tab is open and the button is highlighted when the page loads.
+    openTab('Bio');
+    document.getElementById('toneLabel').textContent = tones[currentToneIndex];
+});
