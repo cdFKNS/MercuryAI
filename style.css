@@ -2,7 +2,8 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #0b1b24; /* Background */
+  background-color: #0b1b24;
+  /* Background */
   color: #e0f7ff;
   display: flex;
   flex-direction: column;
@@ -14,31 +15,35 @@ header {
   display: flex;
   align-items: center;
   padding: 15px;
-  background-color: #102a3c; /* Header background */
+  background-color: #102a3c;
+  /* Header background */
 }
 
 header img {
-  height: 55px;
-  margin-right: 10px;
+  height: 80px;
+  margin-right: 15px;
 }
 
 header h1 {
-  font-size: 22px;
-  color: #4dd0e1; /* Accent color */
+  font-size: 60px;
+  color: #4dd0e1;
+  position: center;
+  /* Accent color */
 }
 
 /* --- Navigation & Tabs --- */
 nav {
   display: flex;
   justify-content: center;
-  background-color: #14354a; /* Navigation background */
+  background-color: #14354a;
+  /* Navigation background */
   padding: 10px;
 }
 
 .tab-btn {
   background-color: transparent;
   border: none;
-  color: #b2ebf2; 
+  color: #b2ebf2;
   margin: 0 15px;
   font-size: 16px;
   cursor: pointer;
@@ -47,38 +52,43 @@ nav {
 
 /* Default hover/focus style for tabs */
 .tab-btn:hover {
-  color: #4dd0e1; /* Accent color */
+  color: #4dd0e1;
+  /* Accent color */
 }
 
 /* Active tab style (controlled by script.js) */
 .tab-btn.active {
-    background-color: #4dd0e1; /* Highlight background */
-    color: #102a3c; /* Dark text for contrast */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  background-color: #4dd0e1;
+  /* Highlight background */
+  color: #102a3c;
+  /* Dark text for contrast */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
 }
 
 /* 👇 CRITICAL CHANGE: Hides all tab content by default. The JS sets display: block on the active tab. */
 .tab-content {
-    display: none;
+  display: none;
 }
 
 main {
   flex: 1;
   padding: 20px;
-  background-color: #14354a; /* Main content card background */
+  background-color: #14354a;
+  /* Main content card background */
 }
 
 h2 {
-  color: #4dd0e1; /* Accent color */
+  color: #4dd0e1;
+  /* Accent color */
 }
 
 /* --- Chat Area --- */
 #chat-area {
   display: flex;
   flex-direction: column;
-  height: 60vh; 
+  height: 60vh;
   overflow-y: auto;
-  background-color: #102a3c; 
+  background-color: #102a3c;
   padding: 15px;
   border-radius: 10px;
   margin-bottom: 10px;
@@ -96,14 +106,14 @@ h2 {
 
 /* AI bubble (Left-aligned) */
 .ai-bubble {
-  background-color: #01579b; 
+  background-color: #01579b;
   margin-right: auto;
-  border-top-left-radius: 5px; 
+  border-top-left-radius: 5px;
 }
 
 /* User bubble (Right-aligned) */
 .user-bubble {
-  background-color: #00796b; 
+  background-color: #00796b;
   margin-left: auto;
   border-top-right-radius: 5px;
 }
@@ -111,14 +121,14 @@ h2 {
 /* --- Input Area --- */
 .input-area {
   display: flex;
-  background-color: #102a3c; 
+  background-color: #102a3c;
   padding: 10px;
   border-radius: 10px;
 }
 
 input[type="text"] {
   flex: 1;
-  background-color: #14354a; 
+  background-color: #14354a;
   border: none;
   border-radius: 20px;
   padding: 10px;
@@ -127,7 +137,7 @@ input[type="text"] {
 }
 
 button {
-  background-color: #0097a7; 
+  background-color: #0097a7;
   border: none;
   color: white;
   border-radius: 20px;
