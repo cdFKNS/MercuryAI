@@ -8,7 +8,7 @@
   </head>
   <body>
     <header>
-      <img src="images/mercuryAI.jpg" alt="Mercury AI LOGO">
+      <img src="images/MercuryAIWB.png" alt="Mercury AI LOGO">
       <h1>Mercury AI</h1>
     </header>
 
@@ -19,21 +19,27 @@
     </nav>
     
     <main>
-    <section id="Bio" class="tab-content">
-  <h2>Bio</h2>
-  <div id="bio-area">
-    <!-- Placeholder for generated bio output -->
-  </div>
-  <div class="input-area">
-    <input type="text" id="bioInput" placeholder="Enter details for your bio (e.g., interests, background)...">
-    <select id="bioTone">
-      <option value="Formal">Formal</option>
-      <option value="Friendly">Friendly</option>
-      <option value="Technical">Technical</option>
-    </select>
-    <button type="button" onclick="sendMessage('Bio')">Generate Bio</button>
-  </div>
-</section>
+      <section id="Bio" class="tab-content">
+        <h2>Bio</h2>
+        <div id="bio-area">
+          <!-- Placeholder for generated bio output -->
+        </div>
+        <div class="input-area">
+          <input type="text" id="bioInput" placeholder="Enter details for your bio (e.g., interests, background)...">
+          <button type="button" onclick="sendMessage('Bio')">Generate Bio</button>
+        </div>
+      </section>
+
+      <section id="Profile" class="tab-content">
+          <h2>Profile</h2>
+          <div id="profile-area">
+            <!-- Placeholder for generated profile output -->
+          </div>
+          <div class="input-area">
+            <input type="text" id="profileInput" placeholder="Enter profile details (e.g., Name: John Doe, Version: 1.0, Specialty: AI)...">
+            <button type="button" onclick="sendMessage('Profile')">Generate Profile</button>
+          </div>
+      </section>
 
       <section id="Portfolio Summary" class="tab-content">
         <h2>Portfolio Summary</h2>
