@@ -95,23 +95,28 @@ const tones = ['Formal', 'Friendly', 'Technical'];
 let currentToneIndex = 0;
 
 // Function to cycle through tones
-function cycleTone() {
+function cycleTone()
+{
     currentToneIndex = (currentToneIndex + 1) % tones.length;
     document.getElementById('toneLabel').textContent = tones[currentToneIndex];
 }
 
 // Helper to get current tone
-function getCurrentTone() {
+function getCurrentTone()
+{
     return tones[currentToneIndex];
 }
 
 // Replace dummy output with prompt engineering
-async function handleGenerate(type, userInput, tone = null) {
+async function handleGenerate(type, userInput, tone = null)
+{
     let systemPrompt = "";
     let userQuery = "";
 
-    if (type === 'bio') {
-        switch (tone) {
+    if (type === 'bio')
+    {
+        switch (tone)
+        {
             case 'Formal':
                 systemPrompt = "You are a highly professional corporate communications specialist. Your goal is to write a biography that is polished, concise, and focused strictly on professional achievements, quantifiable results, and core competencies. Maintain a serious, authoritative, and achievement-oriented tone. The output must be ready for a company website or LinkedIn 'About' section.";
                 break;
@@ -136,11 +141,13 @@ async function handleGenerate(type, userInput, tone = null) {
         USER INPUT:
         "${userInput}"
         `;
-    } else if (type === 'profile') {
+    } else if (type === 'profile')
+    {
         // You can add prompt engineering for Profile here if needed
         systemPrompt = "You are a professional profile generator.";
         userQuery = `Generate a profile based on: "${userInput}"`;
-    } else if (type === 'summary') {
+    } else if (type === 'summary')
+    {
         systemPrompt = "You are an expert technical editor and concise storyteller. Your task is to transform technical project details into a compelling, non-technical project summary focused on business value.";
         userQuery = `
         Generate a concise, impactful, and professional Project Summary suitable for a portfolio.
@@ -154,7 +161,8 @@ async function handleGenerate(type, userInput, tone = null) {
         USER INPUTS to transform:
         "${userInput}"
         `;
-    } else {
+    } else
+    {
         throw new Error(`Invalid generation type: ${type}`);
     }
 
@@ -163,16 +171,20 @@ async function handleGenerate(type, userInput, tone = null) {
 }
 
 // Update sendMessage to use the selected tone for all tabs
-function sendMessage(tabName) {
+function sendMessage(tabName)
+{
     let input, outputArea, userMessage;
 
-    if (tabName === 'Bio') {
+    if (tabName === 'Bio')
+    {
         input = document.getElementById("bioInput");
         outputArea = document.getElementById("bio-area");
-    } else if (tabName === 'Profile') {
+    } else if (tabName === 'Profile')
+    {
         input = document.getElementById("profileInput");
         outputArea = document.getElementById("profile-area");
-    } else if (tabName === 'PortfolioSummary') {
+    } else if (tabName === 'PortfolioSummary')
+    {
         input = document.getElementById("portfolioInput");
         outputArea = document.getElementById("portfolio-area");
     }
@@ -191,13 +203,121 @@ function sendMessage(tabName) {
 
     // Generate AI response using prompt engineering
     let type = tabName === 'PortfolioSummary' ? 'summary' : tabName.toLowerCase();
-    handleGenerate(type, userMessage, getCurrentTone()).then(response => {
+    handleGenerate(type, userMessage, getCurrentTone()).then(response =>
+    {
         const aiBubble = document.createElement("div");
         aiBubble.className = "ai-bubble bubble";
         aiBubble.textContent = response;
         outputArea.appendChild(aiBubble);
         outputArea.scrollTop = outputArea.scrollHeight;
     });
+}
+
+// LocalStorage utility functions
+const STORAGE_KEY = 'aiPortfolioAssistantData';
+
+// Save an output to localStorage
+function saveOutput(content, type)
+{
+    const items = loadSavedOutputs();
+    const newItem = {
+        id: Date.now(), // Unique ID
+        content,
+        type
+    };
+    items.push(newItem);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+}
+
+// Load all saved outputs from localStorage
+function loadSavedOutputs()
+{
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
+}
+
+// Delete a specific output by id from localStorage
+function deleteSavedOutput(id)
+{
+    let items = loadSavedOutputs();
+    items = items.filter(item => item.id != id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+}
+
+// Clear all user data from localStorage
+function clearAllUserData()
+{
+    localStorage.removeItem(STORAGE_KEY);
+}
+
+// Show the modal with saved items
+function showSavedItems()
+{
+    const modal = document.getElementById('saved-items-modal');
+    const list = document.getElementById('saved-items-list');
+    const items = loadSavedOutputs();
+    if (!items.length)
+    {
+        list.innerHTML = "<em>No saved outputs.</em>";
+    } else
+    {
+        list.innerHTML = items
+            .slice() // copy array
+            .reverse() // newest first
+            .map(item => `
+                <div style="border-bottom:1px solid #eee; margin-bottom:8px; padding-bottom:8px;">
+                    <strong>${item.type}</strong> <small>${new Date(item.id).toLocaleString()}</small>
+                    <pre style="white-space:pre-wrap;">${item.content}</pre>
+                    <button onclick="copySavedOutput(${item.id})">Copy</button>
+                    <button onclick="deleteSavedOutput(${item.id}); showSavedItems();">Delete</button>
+                </div>
+            `).join('');
+    }
+    modal.style.display = 'block';
+}
+
+// Hide the modal
+function closeSavedItems()
+{
+    document.getElementById('saved-items-modal').style.display = 'none';
+}
+
+// Copy output to clipboard
+function copySavedOutput(id)
+{
+    const items = loadSavedOutputs();
+    const item = items.find(i => i.id == id);
+    if (item)
+    {
+        navigator.clipboard.writeText(item.content);
+        alert('Copied!');
+    }
+}
+
+// Function to save the current output to localStorage
+function saveCurrentOutput(tabName)
+{
+    let outputArea;
+    if (tabName === 'Bio')
+    {
+        outputArea = document.getElementById("bio-area");
+    } else if (tabName === 'Profile')
+    {
+        outputArea = document.getElementById("profile-area");
+    } else if (tabName === 'PortfolioSummary')
+    {
+        outputArea = document.getElementById("portfolio-area");
+    }
+    // Find the last AI bubble (the generated output)
+    const bubbles = outputArea.getElementsByClassName("ai-bubble");
+    if (bubbles.length === 0)
+    {
+        alert("No generated output to save!");
+        return;
+    }
+    const lastOutput = bubbles[bubbles.length - 1].textContent;
+    saveOutput(lastOutput, tabName);
+    alert("Output saved!");
 }
 
 // Initial call to set the first tab ('Bio') as active on load
