@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+       <meta charset="UtF-8">
+       <meta name="viewport content=width=devise-width, initail-scale=1.0">
+       <title>Mercury AI</title>
+       <link rel="stylesheet" href="style.css">
+
+  </head>
+  <body>
+      <header>
+        <img src="images/mercuryAI.jpg" alt="Mercury AI LOGO">
+      <h1>Mercury AI</h1>
+      </header>
+
+      <nav>
+        <button class="tab-btn" onclick="openTab('Bio')">Bio</button>
+        <button class="tab-btn" onclick="openTab('Profile')">Profile</button>
+        <button class="tab-btn" onclick="openTap('Chat')">Chat</button>
+      </nav>
+      
+      <main>
+        <section id="Bio" class="tab-content">
+          <h2>About Mercury AI</h2>
+          <p>Mercury AI is your intelligent digital assistant designed to make conversations smarter and faster.<br>
+             Built with advanced algorithms,it learns and adapts to assist you better every day.
+          </p>
+        </section>
+
+      <!---<section id="Profile" class="tab-content">
+          <h2>Profile</h2>
+          <p>Name: Mercury AI</p>
+          <p>Version: 1.0</p>
+          <p>Specialty: Conversational intelligent</p>
+
+
+        </section>
+        --->
+
+        <section id="Chat" class="tab-content">
+          <div id="chat-area">
+            <div class="ai-bubble bubble">Hello! I'm Mercury AI. How can i help you today?
+          </div>
+          <div class="input-area">
+            <input type="text" id="userInput" placeholder="Type your message....">
+            <button onclick="sendMessage()">Send</button>
+          </div>
+        </section>
+      </main>
+
+      <script src="script.js"></script>
+  </body>
+</html>
