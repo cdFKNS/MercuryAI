@@ -60,23 +60,23 @@ async function handleGenerate(type, userInput, tone = null)
         switch (tone)
         {
             case 'Formal':
-                systemPrompt = "You are a highly professional corporate communications specialist. Your goal is to write a biography that is polished, concise, and focused strictly on professional achievements, quantifiable results, and core competencies. Maintain a serious, authoritative, and achievement-oriented tone. The output must be ready for a company website or LinkedIn 'About' section.";
+                systemPrompt = "You are a highly professional corporate communications specialist. Your goal is to help the user write a biography that is polished, concise, and focused strictly on their professional achievements and core competencies. The output must be in the first person.";
                 break;
             case 'Friendly':
-                systemPrompt = "You are a warm, approachable copywriter. Your goal is to write a biography that is engaging, conversational, and highlights soft skills, collaborative nature, and enthusiasm. Use an inviting tone, suitable for a personal blog or a team introduction page.";
+                systemPrompt = "You are a warm, approachable copywriter. Your goal is to help the user write a biography that is engaging, conversational, and highlights their soft skills, and collaborative nature. The output must be in the first person and have an inviting tone.";
                 break;
             case 'Technical':
-                systemPrompt = "You are a technical writer specializing in engineering and software. Your goal is to write a biography that highlights technical expertise, specific tools, and methodologies. Use precise, clear language suitable for a technical portfolio or engineering team page.";
+                systemPrompt = "You are a technical writer. Your goal is to help the user write a biography that highlights the technical expertise, specific tools, and methodologies. Use precise, clear language written in the first person.";
                 break;
             default:
-                systemPrompt = "You are a general-purpose copywriter. Write a standard, professional, but engaging biography.";
+                systemPrompt = "You are a general-purpose copywriter. Help the user write a standard, professional, but engaging biography in the first person.";
         }
         userQuery = `
 Convert the following user information into a cohesive, third-person biography.
 
 Instructions:
 1. **Length:** Generate exactly two paragraphs. The first paragraph should introduce the user's current role and expertise; the second should discuss their skills/technologies and career goals.
-2. **Perspective:** Write the entire bio in the third person (e.g., 'She is...', 'He specializes in...').
+2. **Perspective:** Write the entire bio in the first person (e.g., 'I am...', 'I specialize in...').
 3. **Synthesis:** Do not use bullet points or lists. Integrate the skills and experience into a smooth, narrative flow, adhering to the specified tone: ${tone || 'Standard Professional'}.
 
 USER INPUT:
@@ -84,19 +84,27 @@ USER INPUT:
 `;
     } else if (type === 'profile')
     {
-        systemPrompt = "You are a professional profile generator.";
-        userQuery = `Generate a profile based on: "${userInput}"`;
+        systemPrompt = "You are an expect in personal branding, specializing in creating powerful profile headlines. Your is to help the user create a short punchy first person summary for a social media or proffessional network profile(like LinkedIn or a portfolio).";
+        userQuery = `Generate a single, impactful profile headline or short summary (1-2 sentences)written in the **first person**
+        Instructions:
+        1. **Be concise:** No more than 2 sentences
+        2. **Be impactful:** Use strong active verbs.
+        3. **Perspective:** Must be **first person** ("I build...", "I am passionate about...").
+        4. **Focus:** Distill the user's most important skills or passion into a proffessional identity.
+
+        USER INPUT:
+        "${userInput}"`;
     } else if (type === 'summary')
     {
-        systemPrompt = "You are an expert technical editor and concise storyteller. Your task is to transform technical project details into a compelling, non-technical project summary focused on business value.";
+        systemPrompt = "You are an expert technical editor and concise storryteller. Your task is to help the user transform technical project details into a compelling, first person summary focused on business value.";
         userQuery = `
-Generate a concise, impactful, and professional Project Summary suitable for a portfolio.
+Generate a concise, impactful, and professional Project Summary suitable for a portfolio, written from **my (the user's) perspective**.
 
 The summary must adhere to these guidelines:
 1. **Format:** Use a single, powerful paragraph (3-4 sentences max). Do not use bullet points or headings.
-2. **Focus:** Clearly state the **problem** addressed, the **solution** developed, and the quantifiable **impact** or **outcome**.
-3. **Tone:** Maintain an active, results-oriented, and confident tone.
-4. **Integration:** Naturally integrate the key technologies and the user's role.
+2. **Focus:** Clearly state the **problem I** addressed, the **solution I** developed, and the quantifiable **impact** or **outcome** of my work.
+3. **Tone:** Maintain an active, results-oriented, and confident tone(e.g.,"I led...", "I implemented...").
+4. **Integration:** Naturally integrate the key technologies I used and my role.
 
 USER INPUTS to transform:
 "${userInput}"
