@@ -57,6 +57,16 @@ npm start
 - **Never commit your `.env` file or real API keys.**
 - Only share `.env.example` in the repo.
 
+## Live Deployment
+
+- **Frontend (GitHub Pages):**
+  [https://yourusername.github.io/MercuryAI/](https://yourusername.github.io/MercuryAI/)
+
+- **Backend (Render):**
+  [https://mercuryai.onrender.com/api/generate](https://mercuryai.onrender.com/api/generate)
+
+Update the frontend API URL in `script.js` to use the Render backend for production use.
+
 ---
 
 For more details, see the project Kanban board and documentation files.
