@@ -1,9 +1,19 @@
 # MercuryAI
-# Team & Roles:
-Kabelo Modimoeng (Scrum Master & Backend Developer)
-Nomdumiso Mtshilibe (Backend Developer)
-Fortune Malaza (Frontend Developer)
-sibonelo Buthelezi(Frontend developer)
+
+MercuryAI is an AI-powered portfolio assistant that helps users generate professional bios, project summaries, and learning reflections for their portfolios. The app features a tabbed interface, tone selection, and persistent storage of generated outputs. It uses Google Gemini for content generation via a secure backend API proxy.
+
+## Team & Roles
+- Kabelo Modimoeng (Scrum Master & Backend Developer)
+- Nomdumiso Mtshilibe (Backend Developer)
+- Fortune Malaza (Frontend Developer)
+- Sibonelo Buthelezi (Frontend Developer)
+
+## Features
+- Tabbed UI for Bio, Profile, and Portfolio Summary
+- Tone selector for Bio generation (Formal, Friendly, Technical)
+- AI-powered content generation using Gemini API
+- Save, view, and delete generated outputs
+- Secure backend proxy for API key protection
 
 ## Getting Started
 
