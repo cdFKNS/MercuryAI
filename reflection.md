@@ -1,7 +1,7 @@
 # Reflection: MercuryAI Project
 
 ## Approach
-Our team followed an agile, collaborative approach to build MercuryAI. We started by breaking down the requirements into clear tasks and assigning roles based on strengths—frontend, backend, and scrum master. We used a Kanban board to track progress and ensure transparency. The project was developed in phases: repo setup, feature implementation, integration, and deployment. We prioritized security by using a backend proxy for API calls and keeping secrets out of the public repo.
+Our team followed an agile, collaborative approach to build MercuryAI. We started by breaking down the requirements into clear tasks and assigning roles based on strengths: frontend, backend, and scrum master. We used a Kanban board to track progress and ensure transparency. The project was developed in phases: repo setup, feature implementation, integration, and deployment. We prioritized security by using a backend proxy for API calls and keeping secrets out of the public repo.
 
 ## What We Learned
 - **Teamwork & Communication:** Regular check-ins and clear task assignments helped us stay aligned and resolve blockers quickly.
